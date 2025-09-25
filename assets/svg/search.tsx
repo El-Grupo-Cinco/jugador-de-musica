@@ -2,7 +2,7 @@ import Svg, { G, Path } from "react-native-svg";
 
 export function Search({ size = 24, color = "white" }) {
   return (
-    <Svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <G id="Interface / Search_Magnifying_Glass">
         <Path
           id="Vector"

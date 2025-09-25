@@ -1,6 +1,9 @@
 import { Tabs } from "expo-router";
 import React from "react";
 
+import { HeadSet } from "@/assets/svg/headset";
+import { Music } from "@/assets/svg/music";
+import { Search } from "@/assets/svg/search";
 import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
@@ -12,7 +15,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
       }}
@@ -27,12 +30,24 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="[sound]"
+        options={{
+          title: "Music Player",
+          tabBarIcon: ({ color }) => <Music />,
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => <Search />,
+        }}
+      />
+      <Tabs.Screen
         name="about"
         options={{
           title: "About",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <HeadSet />,
         }}
       />
     </Tabs>
