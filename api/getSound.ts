@@ -25,13 +25,16 @@ export async function getSound(id: string) {
       json.description,
       json.category,
       json.duration,
-      json.string,
+      json.created,
       json.username,
       json.images
     );
   } catch (error) {
     console.log("====================================");
-    console.log("Error fetching sound: " + error.message);
+    console.log(
+      "Error fetching sound: " +
+        (error instanceof Error ? error.message : String(error))
+    );
     console.log("====================================");
     return null;
   }

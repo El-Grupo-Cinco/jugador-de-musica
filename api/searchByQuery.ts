@@ -40,6 +40,6 @@ export async function searchByQuery(query: string) {
     return soundResultList;
   } catch (error) {
     //TODO implement elegant solution
-    console.log(error.message);
+    console.log(error instanceof Error ? error.message : String(error));
   }
 }

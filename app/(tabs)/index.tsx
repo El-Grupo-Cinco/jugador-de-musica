@@ -1,21 +1,32 @@
 import { Platform, StyleSheet, View } from "react-native";
 
+import { getSound } from "@/api/getSound";
 import { searchByQuery } from "@/api/searchByQuery";
 import { HelloWave } from "@/components/hello-wave";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { SoundSearchResult } from "@/objets/searchesult";
 import { Link } from "expo-router";
 
 export default function HomeScreen() {
-  let ljud: object;
-  const getSound = async () => {
+  //CODE FOR TESTING PURPOSES TODO remove till next comment
+  let ljud: Array<SoundSearchResult>;
+  const getSoundList = async () => {
     ljud = await searchByQuery("cars");
     console.log("====================================");
     console.log(ljud);
     console.log("====================================");
   };
+  let songOne;
+  const getTheSong = async () => {
+    const id = ljud[0].id;
+    songOne = await getSound(id);
+    console.log("=========FIRST SONG IN LIST=========");
+    console.log(songOne);
+    console.log("====================================");
+  };
 
-  getSound();
+  getSoundList().then(() => getTheSong());
 
   return (
     <View>
