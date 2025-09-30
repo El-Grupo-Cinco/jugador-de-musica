@@ -3,7 +3,8 @@
 // Shows a spectrogram background, sound title, uploader, and play/pause control.
 // Uses Expo's AV module to actually stream/play the preview mp3 from Freesound.
 
-import React, { useState, useEffect } from "react";
+import * as React from "react";
+import { useState, useEffect } from "react";
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av"; // Expo library for sound playback
