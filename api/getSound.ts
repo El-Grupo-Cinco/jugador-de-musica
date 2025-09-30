@@ -1,4 +1,4 @@
-import { Sound } from "@/objets/sound";
+import { Sound } from "@/objects/sound";
 import { API_KEY, SOUND_URL } from "./API_KEY";
 
 export async function getSound(id: string) {

@@ -1,4 +1,4 @@
-import { SoundSearchResult } from "@/objets/searchesult";
+import { SoundSearchResult } from "@/objects/searchResult";
 import { API_KEY, SEARCH_URL } from "./API_KEY";
 
 export async function searchByQuery(query: string) {
