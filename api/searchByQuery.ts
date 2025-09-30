@@ -1,7 +1,7 @@
 import { Sound } from "@/objets/sound";
 import { API_KEY, SEARCH_URL } from "./API_KEY";
 
-export async function searchByQuery(query: string, api_key: string) {
+export async function searchByQuery(query: string) {
   try {
     const response = await fetch(`${SEARCH_URL}${query}`, {
       method: "GET",

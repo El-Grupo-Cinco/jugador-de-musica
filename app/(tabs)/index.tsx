@@ -1,11 +1,22 @@
 import { Platform, StyleSheet, View } from "react-native";
 
+import { searchByQuery } from "@/api/searchByQuery";
 import { HelloWave } from "@/components/hello-wave";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Link } from "expo-router";
 
 export default function HomeScreen() {
+  let ljud: object;
+  const getSound = async () => {
+    ljud = await searchByQuery("cars");
+    console.log("====================================");
+    console.log(ljud);
+    console.log("====================================");
+  };
+
+  getSound();
+
   return (
     <View>
       <ThemedView style={styles.titleContainer}>
