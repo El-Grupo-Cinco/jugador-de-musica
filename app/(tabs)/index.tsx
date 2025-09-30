@@ -6,9 +6,16 @@ import { HelloWave } from "@/components/hello-wave";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { SoundSearchResult } from "@/objets/searchesult";
+import { useQueryStore, useSoundStore } from "@/store/store";
 import { Link } from "expo-router";
 
 export default function HomeScreen() {
+  const query = useQueryStore((store) => store.query);
+  const setQuery = useQueryStore((store) => store.setQuery);
+
+  const sound = useSoundStore((store) => store.sound);
+  const setSound = useSoundStore((store) => store.setSound);
+
   //CODE FOR TESTING PURPOSES TODO remove till next comment
   let ljud: Array<SoundSearchResult>;
   const getSoundList = async () => {
