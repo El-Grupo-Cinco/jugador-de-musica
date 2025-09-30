@@ -1,4 +1,4 @@
-import { Sound } from "@/objets/sound";
+import { SoundSearchResult } from "@/objets/searchesult";
 import { API_KEY, SEARCH_URL } from "./API_KEY";
 
 export async function searchByQuery(query: string) {
@@ -20,34 +20,24 @@ export async function searchByQuery(query: string) {
       throw new Error("No sound result returned.");
     }
 
-    const soundList = json.results.map(
+    const soundResultList = json.results.map(
       (sound: {
         id: string;
-        url: string;
         name: string;
-        tags: String[];
-        description: string;
-        category: string;
-        duration: number;
-        created: string;
+        tags: string[];
+        license: string;
         username: string;
-        images: object;
       }) =>
-        new Sound(
+        new SoundSearchResult(
           sound.id,
-          sound.url,
           sound.name,
           sound.tags,
-          sound.description,
-          sound.category,
-          sound.duration,
-          sound.created,
-          sound.username,
-          sound.images
+          sound.license,
+          sound.username
         )
     );
 
-    return soundList;
+    return soundResultList;
   } catch (error) {
     //TODO implement elegant solution
     console.log(error.message);
