@@ -5,7 +5,7 @@ import { searchByQuery } from "@/api/searchByQuery";
 import { HelloWave } from "@/components/hello-wave";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { SoundSearchResult } from "@/objets/searchesult";
+import { SoundSearchResult } from "@/objects/searchResult";
 import { useQueryStore, useSoundStore } from "@/store/store";
 import { Link } from "expo-router";
 
