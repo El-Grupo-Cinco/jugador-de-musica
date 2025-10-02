@@ -3,21 +3,32 @@
 // Shows a spectrogram background, sound title, uploader, and play/pause control.
 // Uses Expo's AV module to actually stream/play the preview mp3 from Freesound.
 
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av"; // Expo library for sound playback
+import * as React from "react";
+import { useEffect, useState } from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 // Props (data passed in for each suggestion row)
 type SoundSuggestionProps = {
-  title: string;          // Sound title (Freesound's "name")
-  artist: string;         // Sound uploader (Freesound's "username")
-  spectrogram: any;       // Spectrogram thumbnail (like Freesound preview image)
-  previewUrl: string;     // URL to Freesound preview mp3 (e.g., mp3/ogg link)
+  title: string; // Sound title (Freesound's "name")
+  artist: string; // Sound uploader (Freesound's "username")
+  spectrogram: any; // Spectrogram thumbnail (like Freesound preview image)
+  previewUrl: string; // URL to Freesound preview mp3 (e.g., mp3/ogg link)
 };
 
-export default function SoundSuggestion({ title, artist, spectrogram, previewUrl }: SoundSuggestionProps) {
+export default function SoundSuggestion({
+  title,
+  artist,
+  spectrogram,
+  previewUrl,
+}: SoundSuggestionProps) {
   // Whether the sound is currently playing
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -40,8 +51,8 @@ export default function SoundSuggestion({ title, artist, spectrogram, previewUrl
         { shouldPlay: true } // auto-play as soon as it's loaded
       );
 
-      setSound(newSound);   // store reference
-      setIsPlaying(true);   // update UI state
+      setSound(newSound); // store reference
+      setIsPlaying(true); // update UI state
     } catch (error) {
       console.error("Error playing sound:", error);
     }
@@ -104,35 +115,36 @@ export default function SoundSuggestion({ title, artist, spectrogram, previewUrl
 // 🎨 Styles for layout and appearance
 const styles = StyleSheet.create({
   container: {
-    height: 60,              // Same compact height as Freesound suggestion rows
-    marginVertical: 6,       // Vertical gap between rows
-    marginHorizontal: 12,    // Indent from screen edge
-    borderRadius: 8,         // Rounded corners
-    overflow: "hidden",      // Clip background to border radius
-    flexDirection: "row",    // Layout: text left, controls right
-    alignItems: "center",    // Vertically center all content
-    paddingHorizontal: 10,   // Inner spacing
+    height: 60, // Same compact height as Freesound suggestion rows
+    marginVertical: 6, // Vertical gap between rows
+    marginHorizontal: 12, // Indent from screen edge
+    borderRadius: 8, // Rounded corners
+    overflow: "hidden", // Clip background to border radius
+    flexDirection: "row", // Layout: text left, controls right
+    alignItems: "center", // Vertically center all content
+    paddingHorizontal: 10, // Inner spacing
+    width: 300,
   },
   backgroundImage: {
-    resizeMode: "cover",     // Fill background
-    opacity: 0.85,           // Dim background so text is readable
+    resizeMode: "cover", // Fill background
+    opacity: 0.85, // Dim background so text is readable
   },
   textContainer: {
-    flex: 1,                 // Take up remaining space (pushes play button right)
+    flex: 1, // Take up remaining space (pushes play button right)
   },
   title: {
-    color: "white",          // White text for visibility
-    fontWeight: "700",       // Bold (title emphasis)
+    color: "white", // White text for visibility
+    fontWeight: "700", // Bold (title emphasis)
     fontSize: 14,
   },
   artist: {
-    color: "white",          // White text
-    fontSize: 12,            // Smaller (secondary info)
+    color: "white", // White text
+    fontSize: 12, // Smaller (secondary info)
     marginTop: 2,
   },
   controls: {
-    flexDirection: "row",    // Horizontal layout (can add more controls later)
-    alignItems: "center",    // Center vertically
-    marginLeft: 8,           // Gap from text
+    flexDirection: "row", // Horizontal layout (can add more controls later)
+    alignItems: "center", // Center vertically
+    marginLeft: 8, // Gap from text
   },
 });
