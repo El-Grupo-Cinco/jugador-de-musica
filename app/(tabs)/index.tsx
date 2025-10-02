@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     flex: 1,
+    padding: 20,
   },
   suggestionsTitle: {
     color: "white",
