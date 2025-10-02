@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import { getSound } from "@/api/getSound";
-import { searchByQuery } from "@/api/searchByQuery";
+import { getSuggestions } from "@/api/getSuggestions";
 import SoundSuggestion from "@/components/soundSuggestion";
 import { SoundSearchResult } from "@/objects/searchResult";
 import { useQueryStore, useSoundStore } from "@/store/store";
@@ -22,7 +22,7 @@ export default function HomeScreen() {
   let id: string;
 
   const getSoundList = async () => {
-    ljud = await searchByQuery("guitar");
+    ljud = await getSuggestions();
     id = ljud[0].id;
     setSoundSuggestions(ljud);
     console.log("====================================");
