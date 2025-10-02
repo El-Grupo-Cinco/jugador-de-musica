@@ -1,45 +1,44 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 import { getSound } from "@/api/getSound";
 import { getSuggestions } from "@/api/getSuggestions";
 import SoundSuggestion from "@/components/soundSuggestion";
-import { SoundSearchResult } from "@/objects/searchResult";
+import { Sound } from "@/objects/sound";
 import { useQueryStore, useSoundStore } from "@/store/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomeScreen() {
   const query = useQueryStore((store) => store.query);
   const setQuery = useQueryStore((store) => store.setQuery);
-  const [soundSuggestions, setSoundSuggestions] = useState<SoundSearchResult[]>(
-    []
-  );
+  const [soundSuggestions, setSoundSuggestions] = useState<Sound[]>([]);
 
   const sound = useSoundStore((store) => store.sound);
   const setSound = useSoundStore((store) => store.setSound);
 
-  //CODE FOR TESTING PURPOSES TODO remove till next comment
-  let ljud: Array<SoundSearchResult>;
-  let id: string;
+  useEffect(() => {
+    const getNewSuggestions = async () => {
+      try {
+        const suggestions = await getSuggestions();
 
-  const getSoundList = async () => {
-    ljud = await getSuggestions();
-    id = ljud[0].id;
-    setSoundSuggestions(ljud);
-    console.log("====================================");
-    console.log(ljud);
-    console.log("====================================");
-  };
+        if (!Array.isArray(suggestions)) {
+          console.error("getSuggestions did not return an array:", suggestions);
+          Alert.alert("Could not get a list of suggestion.");
+          return;
+        }
 
-  let songOne;
-  const getTheSong = async () => {
-    songOne = await getSound("756577");
-    setSound(songOne);
-    console.log("=========FIRST SONG IN LIST=========");
-    console.log(songOne);
-    console.log("====================================");
-  };
+        const toSoundSuggestions = await Promise.all(
+          suggestions.map((suggestion: Sound) => getSound(suggestion.id))
+        );
 
-  getSoundList().then(() => getTheSong());
+        setSoundSuggestions(toSoundSuggestions);
+      } catch (err) {
+        console.error("Error fetching suggestions:", err);
+        Alert.alert("Could not get a list of suggestion: " + err);
+      }
+    };
+
+    getNewSuggestions();
+  }, []);
 
   return (
     <View style={styles.main}>
@@ -47,12 +46,11 @@ export default function HomeScreen() {
         <Text style={styles.suggestionsTitle}>Our sound suggestions</Text>
         {soundSuggestions.map((soundSuggestion) => (
           <SoundSuggestion
+            key={soundSuggestion.id}
             title={soundSuggestion.name}
             artist={soundSuggestion.username}
-            spectrogram={
-              "https://cdn.freesound.org/displays/772/772425_16646233_spec_L.jpg"
-            }
-            previewUrl="https://freesound.org/people/Adventide/sounds/772425/"
+            spectrogram={soundSuggestion.spectrogram}
+            previewUrl={soundSuggestion.url}
           />
         ))}
       </View>

@@ -27,7 +27,7 @@ export async function getSound(id: string) {
       json.duration,
       json.created,
       json.username,
-      json.images
+      json.images.waveform_l
     );
   } catch (error) {
     console.log("====================================");

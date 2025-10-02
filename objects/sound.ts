@@ -8,7 +8,7 @@ export class Sound {
   duration: number;
   created: string;
   username: string;
-  images: object;
+  spectrogram: object;
 
   constructor(
     id: string,
@@ -20,7 +20,7 @@ export class Sound {
     duration: number,
     created: string,
     username: string,
-    images: object
+    spectrogram: object
   ) {
     this.id = id;
     this.url = url;
@@ -31,6 +31,6 @@ export class Sound {
     this.duration = duration;
     this.created = created;
     this.username = username;
-    this.images = images;
+    this.spectrogram = spectrogram;
   }
 }
