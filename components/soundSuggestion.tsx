@@ -1,11 +1,13 @@
 // components/SoundSuggestion.tsx
 // A single sound suggestion row, styled like Freesound's suggestion list.
 // Shows a spectrogram background, sound title, uploader, and play control.
-// Uses Expo's AV module to actually stream/play the preview mp3 from Freesound.
+// Uses Expo audop module to actually stream/play the preview mp3 from Freesound.
 
+import { Sound } from "@/objects/sound";
+import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
+import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
 import * as React from "react";
-import { useEffect, useState } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -14,20 +16,112 @@ import {
   View,
 } from "react-native";
 
-type SoundSuggestionProps = {
-  title: string;
-  artist: string;
-  spectrogram: any;
-  previewUrl: string;
-};
-
 export default function SoundSuggestion({
-  title,
-  artist,
-  spectrogram,
-  previewUrl,
-}: SoundSuggestionProps) {
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  suggestionSound,
+}: {
+  suggestionSound: Sound;
+}) {
+  const [progress, setProgress] = React.useState(0);
+  const [progressVisible, setProgressVisible] = React.useState(0);
+  const sound = useSoundStore((store) => store.sound);
+  const setSound = useSoundStore((store) => store.setSound);
+
+  const player = useAudioPlayer(sound?.url, {
+    updateInterval: 100,
+    downloadFirst: true,
+  });
+
+  const playerStatus = useAudioPlayerStatus(player);
+
+  React.useEffect(() => {
+    setProgress((playerStatus.currentTime / playerStatus.duration) * 100);
+    if (playerStatus.currentTime === playerStatus.duration) {
+      setProgressVisible(0);
+    }
+  }, [playerStatus.currentTime]);
+
+  const handlePlayBtn = () => {
+    setProgressVisible(100);
+    setSound(suggestionSound);
+    player.play();
+  };
+
+  return (
+    <View>
+      <ImageBackground
+        source={{ uri: suggestionSound.spectrogram }}
+        style={styles.container}
+        imageStyle={styles.backgroundImage}
+      >
+        <View style={styles.textContainer}>
+          <Text style={styles.title} numberOfLines={1}>
+            {suggestionSound.name}
+          </Text>
+          <Text style={styles.artist} numberOfLines={1}>
+            {suggestionSound.username}
+          </Text>
+        </View>
+
+        <View style={styles.controls}>
+          <TouchableOpacity onPress={handlePlayBtn}>
+            <Ionicons name="play-circle" size={36} color="white" />
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+      <View
+        style={[
+          styles.progressBar,
+          { marginLeft: `${progress}%`, opacity: progressVisible },
+        ]}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    height: 60,
+    marginVertical: 6,
+
+    borderRadius: 8,
+    overflow: "hidden",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    width: 300,
+  },
+  backgroundImage: {
+    resizeMode: "cover",
+    opacity: 0.85,
+  },
+  progressBar: {
+    width: 3,
+    height: 60,
+    marginTop: -66,
+    backgroundColor: "#902CD8",
+  },
+  textContainer: {
+    flex: 1,
+  },
+  title: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  artist: {
+    color: "white",
+    fontSize: 12,
+    marginTop: 2,
+  },
+  controls: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 8,
+  },
+});
+
+/*
+const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   // 🔊 Play sound
@@ -76,63 +170,4 @@ export default function SoundSuggestion({
       }
     };
   }, [sound]);
-
-  return (
-    <ImageBackground
-      source={spectrogram}
-      style={styles.container}
-      imageStyle={styles.backgroundImage}
-    >
-      <View style={styles.textContainer}>
-        <Text style={styles.title} numberOfLines={1}>
-          {title}
-        </Text>
-        <Text style={styles.artist} numberOfLines={1}>
-          {artist}
-        </Text>
-      </View>
-
-      <View style={styles.controls}>
-        <TouchableOpacity onPress={playSound}>
-          <Ionicons name="play-circle" size={36} color="white" />
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    marginVertical: 6,
-    marginHorizontal: 12,
-    borderRadius: 8,
-    overflow: "hidden",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    width: 300,
-  },
-  backgroundImage: {
-    resizeMode: "cover",
-    opacity: 0.85,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  title: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 14,
-  },
-  artist: {
-    color: "white",
-    fontSize: 12,
-    marginTop: 2,
-  },
-  controls: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 8,
-  },
-});
+*/

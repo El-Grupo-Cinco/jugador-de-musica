@@ -4,16 +4,13 @@ import { getSound } from "@/api/getSound";
 import { getSuggestions } from "@/api/getSuggestions";
 import SoundSuggestion from "@/components/soundSuggestion";
 import { Sound } from "@/objects/sound";
-import { useQueryStore, useSoundStore } from "@/store/store";
+import { useQueryStore } from "@/store/store";
 import { useEffect, useState } from "react";
 
 export default function HomeScreen() {
   const query = useQueryStore((store) => store.query);
   const setQuery = useQueryStore((store) => store.setQuery);
   const [soundSuggestions, setSoundSuggestions] = useState<Sound[]>([]);
-
-  const sound = useSoundStore((store) => store.sound);
-  const setSound = useSoundStore((store) => store.setSound);
 
   useEffect(() => {
     const getNewSuggestions = async () => {
@@ -47,10 +44,7 @@ export default function HomeScreen() {
         {soundSuggestions.map((soundSuggestion) => (
           <SoundSuggestion
             key={soundSuggestion.id}
-            title={soundSuggestion.name}
-            artist={soundSuggestion.username}
-            spectrogram={soundSuggestion.spectrogram}
-            previewUrl={soundSuggestion.url}
+            suggestionSound={soundSuggestion}
           />
         ))}
       </View>

@@ -19,7 +19,7 @@ export async function getSound(id: string) {
 
     return new Sound(
       json.id,
-      json.url,
+      json.previews["preview-hq-mp3"],
       json.name,
       json.tags,
       json.description,
