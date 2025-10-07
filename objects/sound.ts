@@ -2,25 +2,25 @@ export class Sound {
   id: string;
   url: string;
   name: string;
-  tags: Array<String>;
+  tags: string[];
   description: string;
-  category: string;
+  category: string[];
   duration: number;
   created: string;
   username: string;
-  spectrogram: object;
+  spectrogram: string;
 
   constructor(
     id: string,
     url: string,
     name: string,
-    tags: Array<String>,
+    tags: string[],
     description: string,
-    category: string,
+    category: string[],
     duration: number,
     created: string,
     username: string,
-    spectrogram: object
+    spectrogram: string
   ) {
     this.id = id;
     this.url = url;

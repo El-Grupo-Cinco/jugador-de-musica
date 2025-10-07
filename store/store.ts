@@ -1,8 +1,14 @@
-import { create } from "zustand";
+import { Sound } from "@/objects/sound";
+import { create, StateCreator } from "zustand";
 
-const soundStore = (set: any) => ({
+interface SoundStore {
+  sound: Sound | null;
+  setSound: (newSound: Sound | null) => void;
+}
+
+const soundStore: StateCreator<SoundStore> = (set) => ({
   sound: null,
-  setSound: (newSound: any) => set({ sound: newSound }),
+  setSound: (newSound: Sound | null) => set({ sound: newSound }),
 });
 
 export const useSoundStore = create(soundStore);
