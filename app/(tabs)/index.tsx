@@ -23,11 +23,17 @@ export default function HomeScreen() {
           return;
         }
 
-        const toSoundSuggestions = await Promise.all(
-          suggestions.map((suggestion: Sound) => getSound(suggestion.id))
+        const promises = suggestions.map((suggestion) =>
+          getSound(suggestion.id)
         );
+        const converted = await Promise.all(promises);
 
-        setSoundSuggestions(toSoundSuggestions);
+        //since get sound can return null the "null Sound" are filtered otherwise an error shows when setting soundSUggestions
+        const validSounds = converted.filter(
+          (sound) => sound !== null
+        ) as Sound[];
+
+        setSoundSuggestions(validSounds);
       } catch (err) {
         console.error("Error fetching suggestions:", err);
         Alert.alert("Could not get a list of suggestion: " + err);
@@ -62,7 +68,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     flex: 1,
-    padding: 20,
   },
   suggestionsTitle: {
     color: "white",
