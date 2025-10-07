@@ -4,7 +4,6 @@
 // Uses Expo's AV module to actually stream/play the preview mp3 from Freesound.
 
 import { Ionicons } from "@expo/vector-icons";
-import { Audio } from "expo-av";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import {
