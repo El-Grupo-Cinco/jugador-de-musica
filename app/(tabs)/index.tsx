@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#902CD8",
     alignItems: "center",
     borderRadius: 10,
-    flex: 1,
     padding: 20,
   },
   suggestionsTitle: {
