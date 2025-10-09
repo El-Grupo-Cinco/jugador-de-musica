@@ -1,7 +1,7 @@
 // components/SoundSuggestion.tsx
 // A single sound suggestion row, styled like Freesound's suggestion list.
 // Shows a spectrogram background, sound title, uploader, and play control.
-// Uses Expo audop module to actually stream/play the preview mp3 from Freesound.
+// Uses Expo audio module to actually stream/play the preview mp3 from Freesound.
 
 import { Sound } from "@/objects/sound";
 import { useSoundStore } from "@/store/store";
@@ -54,20 +54,32 @@ export default function SoundSuggestion({
         imageStyle={styles.backgroundImage}
       >
         <View style={styles.textContainer}>
-          <Text style={styles.title} numberOfLines={1}>
+          {/* 🟢 Titel och artist har nu egna onPress-handlers */}
+          <Text
+            style={styles.title}
+            numberOfLines={1}
+            onPress={handlePlayBtn}
+          >
             {suggestionSound.name}
           </Text>
-          <Text style={styles.artist} numberOfLines={1}>
+          <Text
+            style={styles.artist}
+            numberOfLines={1}
+            onPress={handlePlayBtn}
+          >
             {suggestionSound.username}
           </Text>
         </View>
 
+        {/* Play-knapp */}
         <View style={styles.controls}>
           <TouchableOpacity onPress={handlePlayBtn}>
             <Ionicons name="play-circle" size={36} color="white" />
           </TouchableOpacity>
         </View>
       </ImageBackground>
+
+      {/* Progressbar */}
       <View
         style={[
           styles.progressBar,
@@ -82,7 +94,6 @@ const styles = StyleSheet.create({
   container: {
     height: 60,
     marginVertical: 6,
-
     borderRadius: 8,
     overflow: "hidden",
     flexDirection: "row",
