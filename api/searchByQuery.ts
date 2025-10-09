@@ -1,9 +1,10 @@
 import { SoundSearchResult } from "@/objects/searchResult";
+import { StyleSheet } from "react-native";
 import { API_KEY, SEARCH_URL } from "./API_KEY";
 
 export async function searchByQuery(query: string) {
   try {
-    const response = await fetch(`${SEARCH_URL}${query}`, {
+    const response = await fetch(`${SEARCH_URL}${query}&page_size=10`, {
       method: "GET",
       headers: {
         Authorization: API_KEY,
@@ -41,5 +42,32 @@ export async function searchByQuery(query: string) {
   } catch (error) {
     //TODO implement elegant solution
     console.log(error instanceof Error ? error.message : String(error));
+    return [];
   }
 }
+
+const styles = StyleSheet.create({
+  main: {
+    alignItems: "center",
+    padding: 20,
+  },
+  introText: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
+    fontWeight: 800,
+  },
+  suggestionsContainer: {
+    width: "100%",
+    backgroundColor: "#902CD8",
+    alignItems: "center",
+    borderRadius: 10,
+    padding: 20,
+  },
+  suggestionsTitle: {
+    color: "white",
+    fontWeight: "800",
+    fontSize: 20,
+  },
+});

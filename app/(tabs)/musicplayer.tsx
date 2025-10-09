@@ -1,20 +1,20 @@
 // app/(tabs)/musicplayer.tsx
+import { PauseButton } from "@/assets/svg/pauseBtn";
+import { PlayButton } from "@/assets/svg/playBtn";
+import { useSoundStore } from "@/store/store";
+import { Ionicons } from "@expo/vector-icons";
+import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
   Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useSoundStore } from "@/store/store";
-import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
-import { PlayButton } from "@/assets/svg/playBtn";
-import { PauseButton } from "@/assets/svg/pauseBtn";
-import { Ionicons } from "@expo/vector-icons";
 
 const { width: SCREEN_W } = Dimensions.get("window");
 
@@ -33,12 +33,11 @@ export default function MusicPlayer() {
   const togglePlay = async () => {
     try {
       if (!status.isLoaded) {
-        await player.loadAsync();
-        await player.playAsync();
+        await player.play();
       } else if (isPlaying) {
-        await player.pauseAsync();
+        await player.pause();
       } else {
-        await player.playAsync();
+        await player.play();
       }
     } catch (e) {
       console.warn("Playback error:", e);
@@ -122,11 +121,13 @@ export default function MusicPlayer() {
       </View>
 
       <View style={styles.tagsRow}>
-        {(sound?.tags ?? ["Tag", "Tag"]).slice(0, 6).map((t: string, i: number) => (
-          <View key={i} style={styles.tag}>
-            <Text style={styles.tagText}>{t}</Text>
-          </View>
-        ))}
+        {(sound?.tags ?? ["Tag", "Tag"])
+          .slice(0, 6)
+          .map((t: string, i: number) => (
+            <View key={i} style={styles.tag}>
+              <Text style={styles.tagText}>{t}</Text>
+            </View>
+          ))}
       </View>
     </ScrollView>
   );
