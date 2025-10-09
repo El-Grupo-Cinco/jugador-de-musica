@@ -1,13 +1,8 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Image } from "react-native";
 
 export const unstable_settings = {
@@ -26,9 +21,10 @@ export default function RootLayout() {
             header: () => (
               <Image
                 style={{
+                  paddingTop: 33,
                   width: "100%",
-                  height: undefined,
-                  aspectRatio: 1,
+                  height: 100,
+                  resizeMode: "cover",
                 }}
                 source={require("../assets/images/sound-player-logo.png")}
                 resizeMode="contain"
