@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
+import { useRouter } from 'expo-router';
 
 type SearchBarProps = {
     query: string;
@@ -7,6 +8,15 @@ type SearchBarProps = {
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
+    const router = useRouter(); // For navigation
+
+    const handleSubmit = () => {
+        Keyboard.dismiss();
+        if (query.trim() !== '') {
+            router.push('/search'); // Go to the Search page
+        }
+    };
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -14,6 +24,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
                 placeholder="Search sounds..."
                 value={query}
                 onChangeText={setQuery}
+                onSubmitEditing={handleSubmit} // Triggers on Enter
+                returnKeyType="search"
                 placeholderTextColor="#aaa"
             />
         </View>
