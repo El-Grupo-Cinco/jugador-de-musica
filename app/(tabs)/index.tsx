@@ -74,9 +74,10 @@ const styles = StyleSheet.create({
   },
   introText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     marginBottom: 10,
+    fontWeight: 800,
   },
   suggestionsContainer: {
     width: "100%",
