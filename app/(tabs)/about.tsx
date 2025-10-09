@@ -53,22 +53,51 @@ export default function AboutPage() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    gap: 12,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  paragraph: {
-    fontSize: 16,
-    lineHeight: 22,
-  },
-  footer: {
-    marginTop: 20,
-    fontStyle: "italic",
-    textAlign: "center",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#181818",
+        padding: 20,
+    },
+    main: {
+        alignItems: "center",
+        padding: 20,
+    },
+    title: {
+        color: "white",
+        fontSize: 24,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: 16,
+    },
+    introText: {
+        color: "white",
+        fontSize: 16,
+        textAlign: "center",
+        marginBottom: 10,
+    },
+    paragraph: {
+        color: "white",
+        fontSize: 16,
+        textAlign: "left",
+        marginBottom: 12,
+    },
+    suggestionsContainer: {
+        width: "100%",
+        backgroundColor: "#902CD8",
+        alignItems: "center",
+        borderRadius: 10,
+        flex: 1,
+        padding: 20,
+    },
+    suggestionsTitle: {
+        color: "white",
+        fontWeight: "800",
+        fontSize: 20,
+    },
+    footer: {
+        color: "white",
+        fontSize: 16,
+        textAlign: "center",
+        marginTop: 20,
+    },
 });
