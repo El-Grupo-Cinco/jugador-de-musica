@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   suggestionsTitle: {
     color: "white",
     fontWeight: "800",
-    fontSize: 20,
+    fontSize: 16,
   },
 });
