@@ -1,6 +1,7 @@
 // app/(tabs)/musicplayer.tsx
 import { PauseButton } from "@/assets/svg/pauseBtn";
 import { PlayButton } from "@/assets/svg/playBtn";
+import SoundProgress from "@/components/soundProgress";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
@@ -27,8 +28,14 @@ export default function MusicPlayer() {
     downloadFirst: true,
   });
   const status = useAudioPlayerStatus(player);
+  
   const isPlaying =
     status && typeof status.playing === "boolean" ? status.playing : false;
+      const [progressVisible, setProgressVisible] = React.useState(0);
+    
+  React.useEffect(() => {
+    setProgressVisible(status?.playing ? 100 : 0);
+  }, [status?.playing]);
 
   const togglePlay = async () => {
     try {
@@ -83,11 +90,14 @@ export default function MusicPlayer() {
       {/* bred vågformsbild (responsive) */}
       <View style={styles.waveformWrap}>
         {sound?.spectrogram ? (
-          <Image
-            source={{ uri: sound.spectrogram }}
-            style={styles.waveformImage}
+          <View>
+            <Image
+              source={{ uri: sound.spectrogram }}
+              style={styles.waveformImage}
             resizeMode="cover"
-          />
+            />
+            <SoundProgress playerStatus={status} progressVisible={progressVisible} setProgressVisible={(visibility: number) => setProgressVisible(visibility)} />
+          </View>
         ) : (
           <View style={styles.waveformPlaceholder} />
         )}
