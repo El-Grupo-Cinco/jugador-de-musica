@@ -105,7 +105,7 @@ export default function MusicPlayer() {
 
       {/* Controls */}
       <View style={styles.controlsRow}>
-        <TouchableOpacity style={styles.iconBtn}>
+        <TouchableOpacity style={styles.iconBtn} onPress={() => player.seekTo(0)}>
           <Ionicons name="play-skip-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
@@ -121,7 +121,7 @@ export default function MusicPlayer() {
           <Ionicons name="play-forward-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconBtn}>
+        <TouchableOpacity style={styles.iconBtn}  onPress={() => player.seekTo(sound?.duration || 0)}>
           <Ionicons name="play-skip-forward-outline" size={26} color="#fff" />
         </TouchableOpacity>
       </View>
