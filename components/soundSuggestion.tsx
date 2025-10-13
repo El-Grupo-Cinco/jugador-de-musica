@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import SoundProgress from "./soundProgress";
+import SoundProgress from "./SoundProgress";
 
 export default function SoundSuggestion({
   suggestionSound,
