@@ -28,7 +28,7 @@ export default function MusicPlayer() {
   });
   const status = useAudioPlayerStatus(player);
   const isPlaying =
-    status && typeof status.isPlaying === "boolean" ? status.isPlaying : false;
+    status && typeof status.playing === "boolean" ? status.playing : false;
 
   const togglePlay = async () => {
     try {
