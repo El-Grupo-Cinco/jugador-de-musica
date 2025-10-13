@@ -109,7 +109,7 @@ export default function MusicPlayer() {
           <Ionicons name="play-skip-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconBtn}>
+        <TouchableOpacity style={styles.iconBtn} onPress={() => player.seekTo(player.currentTime - 5)}>
           <Ionicons name="play-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
@@ -117,7 +117,7 @@ export default function MusicPlayer() {
           {isPlaying ? <PauseButton size={36} /> : <PlayButton size={36} />}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconBtn}>
+        <TouchableOpacity style={styles.iconBtn} onPress={() => player.seekTo(player.currentTime + 5)}>
           <Ionicons name="play-forward-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
