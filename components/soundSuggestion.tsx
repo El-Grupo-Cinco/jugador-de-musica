@@ -15,14 +15,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import SoundProgress from "./soundProgress";
 
 export default function SoundSuggestion({
   suggestionSound,
 }: {
   suggestionSound: Sound;
 }) {
-  const [progress, setProgress] = React.useState(0);
-  const [progressVisible, setProgressVisible] = React.useState(0);
   const sound = useSoundStore((store) => store.sound);
   const setSound = useSoundStore((store) => store.setSound);
 
@@ -32,13 +31,9 @@ export default function SoundSuggestion({
   });
 
   const playerStatus = useAudioPlayerStatus(player);
+  const [progressVisible, setProgressVisible] = React.useState(0);
 
-  React.useEffect(() => {
-    setProgress((playerStatus.currentTime / playerStatus.duration) * 100);
-    if (playerStatus.currentTime === playerStatus.duration) {
-      setProgressVisible(0);
-    }
-  }, [playerStatus.currentTime]);
+  
 
   const handlePlayBtn = () => {
     setProgressVisible(100);
@@ -80,12 +75,7 @@ export default function SoundSuggestion({
       </ImageBackground>
 
       {/* Progressbar */}
-      <View
-        style={[
-          styles.progressBar,
-          { marginLeft: `${progress}%`, opacity: progressVisible },
-        ]}
-      />
+      <SoundProgress playerStatus={playerStatus} progressVisible={progressVisible} setProgressVisible={(visibility: number) => setProgressVisible(visibility)} />
     </View>
   );
 }
@@ -104,12 +94,6 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: "cover",
     opacity: 0.85,
-  },
-  progressBar: {
-    width: 3,
-    height: 60,
-    marginTop: -66,
-    backgroundColor: "#902CD8",
   },
   textContainer: {
     flex: 1,
