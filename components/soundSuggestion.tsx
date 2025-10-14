@@ -36,6 +36,7 @@ export default function SoundSuggestion({
   const [isPlaying, setIsPlaying] = React.useState(false);
 
   const handlePlayBtn = () => {
+    player.pause;
     setSound(suggestionSound);
     player.play();
     setIsPlaying(true);
@@ -48,6 +49,7 @@ export default function SoundSuggestion({
   };
 
   const handleTitleArtist = () => {
+    player.pause;
     setSound(suggestionSound);
     router.navigate("/musicplayer");
   };
