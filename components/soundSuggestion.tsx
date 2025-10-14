@@ -56,6 +56,7 @@ export default function SoundSuggestion({
 
   React.useEffect(() => {
     if (suggestionSound !== sound) {
+      setIsPlaying(false);
       setProgressVisible(0);
     }
   }, [sound]);
