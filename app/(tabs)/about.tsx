@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   introText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     marginBottom: 10,
   },
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   suggestionsTitle: {
     color: "white",
     fontWeight: "800",
-    fontSize: 16,
+    fontSize: 20,
   },
 });
