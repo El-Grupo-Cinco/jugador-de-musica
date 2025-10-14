@@ -107,6 +107,7 @@ export default function SoundSuggestion({
         setProgressVisible={(visibility: number) =>
           setProgressVisible(visibility)
         }
+        setIsPlaying={setIsPlaying}
       />
     </View>
   );

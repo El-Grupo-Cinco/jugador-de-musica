@@ -6,12 +6,14 @@ interface Props {
   playerStatus: AudioStatus;
   progressVisible: number;
   setProgressVisible: (visibility: number) => void;
+  setIsPlaying: (isPLaying: boolean) => void;
 }
 
 const SoundProgress = ({
   playerStatus,
   progressVisible,
   setProgressVisible,
+  setIsPlaying,
 }: Props) => {
   const [progress, setProgress] = React.useState(0);
 
@@ -19,6 +21,7 @@ const SoundProgress = ({
     setProgress((playerStatus.currentTime / playerStatus.duration) * 100);
     if (playerStatus.currentTime === playerStatus.duration) {
       setProgressVisible(0);
+      setIsPlaying(false);
     }
   }, [playerStatus.currentTime]);
 
