@@ -7,11 +7,14 @@ export async function getSound(id: string) {
       method: "GET",
       headers: {
         Authorization: API_KEY,
+          Accept: "application/json", // iOS requires this
+          "Content-Type": "application/json", // Fixes header stripping on iOS
       },
     });
 
     if (!response.ok) {
       const message = await response.text();
+      console.log("getSound Error:", response.status, message);
       throw new Error(message);
     }
 
@@ -30,12 +33,7 @@ export async function getSound(id: string) {
       json.images.waveform_l
     );
   } catch (error) {
-    console.log("====================================");
-    console.log(
-      "Error fetching sound: " +
-        (error instanceof Error ? error.message : String(error))
-    );
-    console.log("====================================");
-    return null;
+      console.log("getSound Exception:", error instanceof Error ? error.message : String(error));
+      return null;
   }
 }

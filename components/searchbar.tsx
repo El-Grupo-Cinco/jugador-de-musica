@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
+import {View, TextInput, StyleSheet, Keyboard, TouchableOpacity} from 'react-native';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons'; // using built-in icon
 
 type SearchBarProps = {
     query: string;
@@ -18,7 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.wrapper}>
             <TextInput
                 style={styles.input}
                 placeholder="Search sounds..."
@@ -28,6 +29,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
                 returnKeyType="search"
                 placeholderTextColor="#aaa"
             />
+
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                <Ionicons name="search" size={20} color="#333" />
+            </TouchableOpacity>
         </View>
     );
 };
@@ -35,15 +40,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
 export default SearchBar;
 
 const styles = StyleSheet.create({
-    container: {
+    wrapper: {
         width: '100%',
-        padding: 10,
+        paddingHorizontal: 10,
         backgroundColor: '#eee',
         borderRadius: 10,
         marginBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     input: {
+        flex: 1,
         fontSize: 16,
         color: '#333',
+        paddingVertical: 10,
+    },
+    button: {
+        padding: 8,
+        marginLeft: 8,
+        backgroundColor: '#ccc',
+        borderRadius: 6,
     },
 });

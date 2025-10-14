@@ -8,10 +8,13 @@ export async function searchByQuery(query: string) {
       method: "GET",
       headers: {
         Authorization: API_KEY,
+          Accept: "application/json",   // iOS compatibility
+          "Content-Type": "application/json", // Fixes header stripping on iOS
       },
     });
     if (!response.ok) {
       const message: string = await response.text();
+        console.log("searchByQuery Error:", response.status, message);
       throw new Error(message);
     }
 
@@ -40,8 +43,7 @@ export async function searchByQuery(query: string) {
 
     return soundResultList;
   } catch (error) {
-    //TODO implement elegant solution
-    console.log(error instanceof Error ? error.message : String(error));
+    console.log("searchByQuery Exception:", error instanceof Error ? error.message : String(error));
     return [];
   }
 }
