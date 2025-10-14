@@ -46,13 +46,13 @@ export default function SoundSuggestion({
     setIsPlaying(false);
   };
 
-  // Keep UI in sync if playback stops or ends
+  /*   // Keep UI in sync if playback stops or ends
   React.useEffect(() => {
     if (playerStatus === "ended" || playerStatus === "stopped") {
       setIsPlaying(false);
       setProgressVisible(0);
     }
-  }, [playerStatus]);
+  }, [playerStatus]); */
 
   return (
     <View>
@@ -81,7 +81,9 @@ export default function SoundSuggestion({
 
         {/* Play/Pause-knapp */}
         <View style={styles.controls}>
-          <TouchableOpacity onPress={isPlaying ? handlePauseBtn : handlePlayBtn}>
+          <TouchableOpacity
+            onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
+          >
             <Ionicons
               name={isPlaying ? "pause-circle" : "play-circle"}
               size={36}
@@ -95,7 +97,9 @@ export default function SoundSuggestion({
       <SoundProgress
         playerStatus={playerStatus}
         progressVisible={progressVisible}
-        setProgressVisible={(visibility: number) => setProgressVisible(visibility)}
+        setProgressVisible={(visibility: number) =>
+          setProgressVisible(visibility)
+        }
       />
     </View>
   );
@@ -135,7 +139,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
-
 
 /*
 const [sound, setSound] = useState<Audio.Sound | null>(null);
