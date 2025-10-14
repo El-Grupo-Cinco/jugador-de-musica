@@ -4,17 +4,17 @@ import { API_KEY, SEARCH_URL } from "./API_KEY";
 
 export async function searchByQuery(query: string) {
   try {
-    const response = await fetch(`${SEARCH_URL}${query}&page_size=10`, {
+    const response = await fetch(`${SEARCH_URL}${query}&page_size=20`, {
       method: "GET",
       headers: {
         Authorization: API_KEY,
-          Accept: "application/json",   // iOS compatibility
-          "Content-Type": "application/json", // Fixes header stripping on iOS
+        Accept: "application/json", // iOS compatibility
+        "Content-Type": "application/json", // Fixes header stripping on iOS
       },
     });
     if (!response.ok) {
       const message: string = await response.text();
-        console.log("searchByQuery Error:", response.status, message);
+      console.log("searchByQuery Error:", response.status, message);
       throw new Error(message);
     }
 
@@ -43,7 +43,10 @@ export async function searchByQuery(query: string) {
 
     return soundResultList;
   } catch (error) {
-    console.log("searchByQuery Exception:", error instanceof Error ? error.message : String(error));
+    console.log(
+      "searchByQuery Exception:",
+      error instanceof Error ? error.message : String(error)
+    );
     return [];
   }
 }

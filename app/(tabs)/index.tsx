@@ -4,13 +4,24 @@ import SearchBar from "@/components/searchbar";
 import SoundSuggestion from "@/components/soundSuggestion";
 import { Sound } from "@/objects/sound";
 import { useQueryStore } from "@/store/store";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, Keyboard, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const query = useQueryStore((store) => store.query);
   const setQuery = useQueryStore((store) => store.setQuery);
   const [soundSuggestions, setSoundSuggestions] = useState<Sound[]>([]);
+
+  const handleSubmit = () => {
+    Keyboard.dismiss();
+    if (query.trim() !== "") {
+      router.push({
+        pathname: "/search",
+        params: { searchQuery: query },
+      });
+    }
+  };
 
   useEffect(() => {
     const getNewSuggestions = async () => {
@@ -51,7 +62,11 @@ export default function HomeScreen() {
       </Text>
 
       {/* SearchBar */}
-      <SearchBar query={query} setQuery={setQuery} />
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        handleSubmit={handleSubmit}
+      />
 
       {/* Suggestions Box */}
       <View style={styles.suggestionsContainer}>

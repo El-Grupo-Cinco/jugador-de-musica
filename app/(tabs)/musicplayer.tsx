@@ -28,11 +28,11 @@ export default function MusicPlayer() {
     downloadFirst: true,
   });
   const status = useAudioPlayerStatus(player);
-  
+
   const isPlaying =
     status && typeof status.playing === "boolean" ? status.playing : false;
-      const [progressVisible, setProgressVisible] = React.useState(0);
-    
+  const [progressVisible, setProgressVisible] = React.useState(0);
+
   React.useEffect(() => {
     setProgressVisible(status?.playing ? 100 : 0);
   }, [status?.playing]);
@@ -62,29 +62,17 @@ export default function MusicPlayer() {
       ]}
       showsVerticalScrollIndicator={false}
     >
-      {}
       <View style={styles.center}>
-        {/* liten coverbild ovanför titeln */}
-        <View style={styles.albumWrap}>
-          {sound?.spectrogram ? (
-            <Image
-              source={{ uri: sound.spectrogram }}
-              style={styles.albumImage}
-              resizeMode="cover"
-            />
-          ) : (
-            <View style={[styles.albumImage, styles.albumPlaceholder]}>
-              <Text style={styles.placeholderText}>No image</Text>
-            </View>
-          )}
-        </View>
-
         <Text style={styles.trackTitle} numberOfLines={2}>
           {sound?.name ?? "Unknown track"}
         </Text>
         <Text style={styles.trackArtist} numberOfLines={1}>
           {sound?.username ?? "Unknown artist"}
         </Text>
+        <Text style={styles.trackArtist}>Description:</Text>
+        <ScrollView style={{ maxHeight: 200, marginTop: 10 }}>
+          <Text style={styles.description}>{sound?.description}</Text>
+        </ScrollView>
       </View>
 
       {/* bred vågformsbild (responsive) */}
@@ -94,9 +82,15 @@ export default function MusicPlayer() {
             <Image
               source={{ uri: sound.spectrogram }}
               style={styles.waveformImage}
-            resizeMode="cover"
+              resizeMode="cover"
             />
-            <SoundProgress playerStatus={status} progressVisible={progressVisible} setProgressVisible={(visibility: number) => setProgressVisible(visibility)} />
+            <SoundProgress
+              playerStatus={status}
+              progressVisible={progressVisible}
+              setProgressVisible={(visibility: number) =>
+                setProgressVisible(visibility)
+              }
+            />
           </View>
         ) : (
           <View style={styles.waveformPlaceholder} />
@@ -105,11 +99,17 @@ export default function MusicPlayer() {
 
       {/* Controls */}
       <View style={styles.controlsRow}>
-        <TouchableOpacity style={styles.iconBtn} onPress={() => player.seekTo(0)}>
+        <TouchableOpacity
+          style={styles.iconBtn}
+          onPress={() => player.seekTo(0)}
+        >
           <Ionicons name="play-skip-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconBtn} onPress={() => player.seekTo(player.currentTime - 5)}>
+        <TouchableOpacity
+          style={styles.iconBtn}
+          onPress={() => player.seekTo(player.currentTime - 5)}
+        >
           <Ionicons name="play-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
@@ -117,11 +117,17 @@ export default function MusicPlayer() {
           {isPlaying ? <PauseButton size={36} /> : <PlayButton size={36} />}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconBtn} onPress={() => player.seekTo(player.currentTime + 5)}>
+        <TouchableOpacity
+          style={styles.iconBtn}
+          onPress={() => player.seekTo(player.currentTime + 5)}
+        >
           <Ionicons name="play-forward-outline" size={26} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconBtn}  onPress={() => player.seekTo(sound?.duration || 0)}>
+        <TouchableOpacity
+          style={styles.iconBtn}
+          onPress={() => player.seekTo(sound?.duration || 0)}
+        >
           <Ionicons name="play-skip-forward-outline" size={26} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -256,4 +262,11 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   tagText: { color: "#ddd", fontSize: 12 },
+  description: {
+    color: "#e2d6ff",
+    fontSize: 13,
+    textAlign: "center",
+    marginTop: 6,
+    paddingHorizontal: 15,
+  },
 });
