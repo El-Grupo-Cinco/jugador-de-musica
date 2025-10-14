@@ -7,6 +7,7 @@ import { Sound } from "@/objects/sound";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { router } from "expo-router";
 import * as React from "react";
 import {
   ImageBackground,
@@ -46,13 +47,10 @@ export default function SoundSuggestion({
     setIsPlaying(false);
   };
 
-  /*   // Keep UI in sync if playback stops or ends
-  React.useEffect(() => {
-    if (playerStatus === "ended" || playerStatus === "stopped") {
-      setIsPlaying(false);
-      setProgressVisible(0);
-    }
-  }, [playerStatus]); */
+  const handleTitleArtist = () => {
+    setSound(suggestionSound);
+    router.navigate("/musicplayer");
+  };
 
   return (
     <View>
@@ -66,14 +64,14 @@ export default function SoundSuggestion({
           <Text
             style={styles.title}
             numberOfLines={1}
-            onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
+            onPress={handleTitleArtist}
           >
             {suggestionSound.name}
           </Text>
           <Text
             style={styles.artist}
             numberOfLines={1}
-            onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
+            onPress={handleTitleArtist}
           >
             {suggestionSound.username}
           </Text>
