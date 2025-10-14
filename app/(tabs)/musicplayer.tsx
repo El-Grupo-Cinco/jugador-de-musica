@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
     width: Math.min(SCREEN_W - 40, 1100),
     height: 60,
     borderRadius: 8,
+    marginBottom: 6,
   },
   waveformPlaceholder: {
     width: Math.min(SCREEN_W - 40, 1100),
