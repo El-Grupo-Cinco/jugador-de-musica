@@ -1,7 +1,7 @@
 // app/(tabs)/musicplayer.tsx
 import { PauseButton } from "@/assets/svg/pauseBtn";
 import { PlayButton } from "@/assets/svg/playBtn";
-import SoundProgress from "@/components/SoundProgress";
+import SoundProgress from "@/components/soundProgress";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";

@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import SoundProgress from "./SoundProgress";
+import SoundProgress from "./soundProgress";
 
 export default function SoundSuggestion({
   suggestionSound,
@@ -53,6 +53,12 @@ export default function SoundSuggestion({
     setSound(suggestionSound);
     router.navigate("/musicplayer");
   };
+
+  React.useEffect(() => {
+    if (suggestionSound !== sound) {
+      setProgressVisible(0);
+    }
+  }, [sound]);
 
   return (
     <View>
