@@ -32,14 +32,27 @@ export default function SoundSuggestion({
 
   const playerStatus = useAudioPlayerStatus(player);
   const [progressVisible, setProgressVisible] = React.useState(0);
-
-  
+  const [isPlaying, setIsPlaying] = React.useState(false);
 
   const handlePlayBtn = () => {
-    setProgressVisible(100);
     setSound(suggestionSound);
     player.play();
+    setIsPlaying(true);
+    setProgressVisible(100);
   };
+
+  const handlePauseBtn = () => {
+    player.pause();
+    setIsPlaying(false);
+  };
+
+  // Keep UI in sync if playback stops or ends
+  React.useEffect(() => {
+    if (playerStatus === "ended" || playerStatus === "stopped") {
+      setIsPlaying(false);
+      setProgressVisible(0);
+    }
+  }, [playerStatus]);
 
   return (
     <View>
@@ -49,33 +62,41 @@ export default function SoundSuggestion({
         imageStyle={styles.backgroundImage}
       >
         <View style={styles.textContainer}>
-          {/* 🟢 Titel och artist har nu egna onPress-handlers */}
+          {/* Titel och artist klickbara */}
           <Text
             style={styles.title}
             numberOfLines={1}
-            onPress={handlePlayBtn}
+            onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
           >
             {suggestionSound.name}
           </Text>
           <Text
             style={styles.artist}
             numberOfLines={1}
-            onPress={handlePlayBtn}
+            onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
           >
             {suggestionSound.username}
           </Text>
         </View>
 
-        {/* Play-knapp */}
+        {/* Play/Pause-knapp */}
         <View style={styles.controls}>
-          <TouchableOpacity onPress={handlePlayBtn}>
-            <Ionicons name="play-circle" size={36} color="white" />
+          <TouchableOpacity onPress={isPlaying ? handlePauseBtn : handlePlayBtn}>
+            <Ionicons
+              name={isPlaying ? "pause-circle" : "play-circle"}
+              size={36}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </ImageBackground>
 
       {/* Progressbar */}
-      <SoundProgress playerStatus={playerStatus} progressVisible={progressVisible} setProgressVisible={(visibility: number) => setProgressVisible(visibility)} />
+      <SoundProgress
+        playerStatus={playerStatus}
+        progressVisible={progressVisible}
+        setProgressVisible={(visibility: number) => setProgressVisible(visibility)}
+      />
     </View>
   );
 }
@@ -114,6 +135,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
+
 
 /*
 const [sound, setSound] = useState<Audio.Sound | null>(null);
