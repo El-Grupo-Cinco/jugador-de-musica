@@ -1,50 +1,40 @@
-# Welcome to your Expo app 👋
+# THE SOUND PLAYER
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an React-native project using [Expo](https://expo.dev) created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+The Sound Player is a school project for four WebDev students. It uses the [Freesound API](https://freesound.org/docs/api/resources_apiv2.html#user-sounds) which really is a collection of random sound.
+You want to listen to:
 
-1. Install dependencies
+- a cat flap opening and closing : you can!
+- a cool 30 second techno loop : you can!
+- a Bob Marley cover (copyright 🤷‍♂️) : you can!
+- etc.
 
-   ```bash
-   npm install
-   ```
+You'll probably find what you're looking for.
 
-2. Start the app
+## TABS
 
-   ```bash
-   npx expo start
-   ```
+### HOME
 
-In the output, you'll find options to open the app in a
+Render a search bar and five sound suggestions you can listen to (only play/pause).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Music Player
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Clicking on the song-title/artist-name of a sound suggestion sends your to the Music Player. Here you can also skip fwd/bwd or go to the start/end of the song.
+If a sound is playing in Home or Search, pressing the Music Player icon will show you the active song.
 
-## Get a fresh project
+### Search
 
-When you're ready, run:
+Search a sound and play it in the rendered sound results.
+
+### About
+
+Quick description of the team. We don't take ourselves too seriously.
+
+## Useage:
+
+You might need to install the following expo dependency:
 
 ```bash
-npm run reset-project
+npx expo install expo-audio
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
