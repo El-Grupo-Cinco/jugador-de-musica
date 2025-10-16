@@ -71,7 +71,11 @@ export default function MusicPlayer() {
           {sound?.username ?? "Unknown artist"}
         </Text>
         <Text style={styles.trackArtist}>Description:</Text>
-        <ScrollView style={{ maxHeight: 200, marginTop: 10 }}>
+        <ScrollView
+          style={styles.descriptionContainer}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          nestedScrollEnabled={true}
+        >
           <Text style={styles.description}>{sound?.description}</Text>
         </ScrollView>
       </View>
@@ -265,11 +269,18 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   tagText: { color: "#ddd", fontSize: 12 },
+  descriptionContainer: {
+    paddingHorizontal: 15,
+    borderColor: PURPLE,
+    borderWidth: 2,
+    borderRadius: 5,
+    padding: 2,
+    maxHeight: 150,
+  },
   description: {
     color: "#e2d6ff",
     fontSize: 13,
     textAlign: "center",
     marginTop: 6,
-    paddingHorizontal: 15,
   },
 });
