@@ -2,7 +2,16 @@ import { SoundSearchResult } from "@/objects/searchResult";
 import { API_KEY, SEARCH_URL } from "./API_KEY";
 
 export async function getSuggestions() {
-  const suggestionList: string[] = ["piano", "guitar", "trumpet", "cat", "dog"];
+  const suggestionList: string[] = [
+    "piano",
+    "guitar",
+    "trumpet",
+    "cat",
+    "dog",
+    "techno",
+    "rock",
+    "singer",
+  ];
   const selection: number = Math.floor(Math.random() * suggestionList.length);
   try {
     const response = await fetch(
