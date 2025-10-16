@@ -23,7 +23,12 @@ const SoundProgress = ({
       setProgressVisible(0);
       setIsPlaying(false);
     }
-  }, [playerStatus.currentTime]);
+  }, [
+    playerStatus.currentTime,
+    playerStatus.duration,
+    setProgressVisible,
+    setIsPlaying,
+  ]);
 
   return (
     <View

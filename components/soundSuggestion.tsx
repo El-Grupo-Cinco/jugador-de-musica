@@ -104,9 +104,7 @@ export default function SoundSuggestion({
       <SoundProgress
         playerStatus={playerStatus}
         progressVisible={progressVisible}
-        setProgressVisible={(visibility: number) =>
-          setProgressVisible(visibility)
-        }
+        setProgressVisible={setProgressVisible}
         setIsPlaying={setIsPlaying}
       />
     </View>
@@ -147,55 +145,3 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
-
-/*
-const [sound, setSound] = useState<Audio.Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  // 🔊 Play sound
-  async function playSound() {
-    try {
-      // If a sound is already playing, stop it first
-      if (sound) {
-        await sound.stopAsync();
-        await sound.unloadAsync();
-        setSound(null);
-        setIsPlaying(false);
-      }
-
-      // Load and play a new sound
-      const { sound: newSound } = await Audio.Sound.createAsync(
-        { uri: previewUrl },
-        { shouldPlay: true }
-      );
-
-      // When the sound finishes, reset UI
-      newSound.setOnPlaybackStatusUpdate((status) => {
-        if (
-          status &&
-          status.isLoaded &&
-          "isPlaying" in status &&
-          "didJustFinish" in status &&
-          !status.isPlaying &&
-          status.didJustFinish
-        ) {
-          setIsPlaying(false);
-        }
-      });
-
-      setSound(newSound);
-      setIsPlaying(true);
-    } catch (error) {
-      console.error("Error playing sound:", error);
-    }
-  }
-
-  // 🧹 Cleanup
-  useEffect(() => {
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
-  }, [sound]);
-*/

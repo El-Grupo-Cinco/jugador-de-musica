@@ -28,9 +28,10 @@ export default function MusicPlayer() {
     downloadFirst: true,
   });
   const status = useAudioPlayerStatus(player);
+  const [isPlaying, setIsPlaying] = React.useState(false);
 
-  const isPlaying =
-    status && typeof status.playing === "boolean" ? status.playing : false;
+  //const isPlaying =
+  //  status && typeof status.playing === "boolean" ? status.playing : false;
   const [progressVisible, setProgressVisible] = React.useState(0);
 
   React.useEffect(() => {
@@ -90,6 +91,7 @@ export default function MusicPlayer() {
               setProgressVisible={(visibility: number) =>
                 setProgressVisible(visibility)
               }
+              setIsPlaying={setIsPlaying}
             />
           </View>
         ) : (

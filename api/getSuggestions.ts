@@ -11,8 +11,8 @@ export async function getSuggestions() {
         method: "GET",
         headers: {
           Authorization: API_KEY,
-            Accept: "application/json",   // iOS compatibility
-            "Content-Type": "application/json", // Fixes header stripping on iOS
+          Accept: "application/json", // iOS compatibility
+          "Content-Type": "application/json", // Fixes header stripping on iOS
         },
       }
     );
@@ -47,7 +47,10 @@ export async function getSuggestions() {
 
     return soundResultList;
   } catch (error) {
-      console.log("getSuggestions Exception:", error instanceof Error ? error.message : String(error));
-      return [];
+    console.log(
+      "getSuggestions Exception:",
+      error instanceof Error ? error.message : String(error)
+    );
+    return [];
   }
 }
