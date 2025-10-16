@@ -38,14 +38,14 @@ export default function MusicPlayer() {
     setProgressVisible(status?.playing ? 100 : 0);
   }, [status?.playing]);
 
-  const togglePlay = async () => {
+  const togglePlay = () => {
     try {
       if (!status.isLoaded) {
-        await player.play();
+        player.play();
       } else if (isPlaying) {
-        await player.pause();
+        player.pause();
       } else {
-        await player.play();
+        player.play();
       }
     } catch (e) {
       console.warn("Playback error:", e);

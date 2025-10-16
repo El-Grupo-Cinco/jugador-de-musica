@@ -19,8 +19,6 @@ export default function SearchPage() {
   const { searchQuery } = useLocalSearchParams<{ searchQuery: string }>();
 
   const searchSound = async () => {
-    console.log("searchsound working");
-
     const result: SoundSearchResult[] = await searchByQuery(query);
 
     const soundPromises = result.map((suggestion) => getSound(suggestion.id));
