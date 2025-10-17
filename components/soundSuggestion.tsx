@@ -37,7 +37,7 @@ export default function SoundSuggestion({
   const [progressVisible, setProgressVisible] = React.useState(0);
 
   const handlePlayBtn = async () => {
-    if (player) {
+    if (isPlaying) {
       player.pause();
     }
     setSound(suggestionSound);
@@ -106,7 +106,7 @@ export default function SoundSuggestion({
         {/* Play/Pause-knapp */}
         <View style={styles.controls}>
           <TouchableOpacity
-            onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
+            onPress={playOrPauseBtn() ? handlePauseBtn : handlePlayBtn}
           >
             <Ionicons
               name={playOrPauseBtn() ? "pause-circle" : "play-circle"}
