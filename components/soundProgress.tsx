@@ -16,7 +16,7 @@ const SoundProgress = ({ progressVisible, setProgressVisible }: Props) => {
 
   React.useEffect(() => {
     setProgress((playerStatus.currentTime / playerStatus.duration) * 100);
-    if (playerStatus.currentTime === playerStatus.duration) {
+    if (playerStatus.didJustFinish) {
       setProgressVisible(0);
       setIsPlaying(false);
     }
