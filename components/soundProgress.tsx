@@ -1,21 +1,18 @@
-import { AudioStatus } from "expo-audio";
+import { useSoundStore } from "@/store/store";
+import { useAudioPlayerStatus } from "expo-audio";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
 interface Props {
-  playerStatus: AudioStatus;
   progressVisible: number;
   setProgressVisible: (visibility: number) => void;
-  setIsPlaying: (isPLaying: boolean) => void;
 }
 
-const SoundProgress = ({
-  playerStatus,
-  progressVisible,
-  setProgressVisible,
-  setIsPlaying,
-}: Props) => {
+const SoundProgress = ({ progressVisible, setProgressVisible }: Props) => {
   const [progress, setProgress] = React.useState(0);
+  const player = useSoundStore((store) => store.player);
+  const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
+  const playerStatus = useAudioPlayerStatus(player);
 
   React.useEffect(() => {
     setProgress((playerStatus.currentTime / playerStatus.duration) * 100);
@@ -23,12 +20,7 @@ const SoundProgress = ({
       setProgressVisible(0);
       setIsPlaying(false);
     }
-  }, [
-    playerStatus.currentTime,
-    playerStatus.duration,
-    setProgressVisible,
-    setIsPlaying,
-  ]);
+  }, [playerStatus.currentTime, playerStatus.duration, setProgressVisible]);
 
   return (
     <View

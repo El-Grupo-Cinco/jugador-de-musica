@@ -4,7 +4,7 @@ import { PlayButton } from "@/assets/svg/playBtn";
 import SoundProgress from "@/components/soundProgress";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
-import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { useAudioPlayerStatus } from "expo-audio";
 import React from "react";
 import {
   Dimensions,
@@ -22,30 +22,29 @@ const { width: SCREEN_W } = Dimensions.get("window");
 export default function MusicPlayer() {
   const insets = useSafeAreaInsets();
   const sound = useSoundStore((s) => s.sound);
+  const player = useSoundStore((store) => store.player);
+  const isPlaying = useSoundStore((store) => store.isPlaying);
+  const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
 
-  const player = useAudioPlayer(sound?.url, {
-    updateInterval: 200,
-    downloadFirst: true,
-  });
   const status = useAudioPlayerStatus(player);
-  const [isPlaying, setIsPlaying] = React.useState(false);
 
-  //const isPlaying =
-  //  status && typeof status.playing === "boolean" ? status.playing : false;
   const [progressVisible, setProgressVisible] = React.useState(0);
 
   React.useEffect(() => {
-    setProgressVisible(status?.playing ? 100 : 0);
-  }, [status?.playing]);
+    setProgressVisible(status?.currentTime !== 0 ? 100 : 0);
+  }, [status?.currentTime]);
 
   const togglePlay = () => {
     try {
       if (!status.isLoaded) {
         player.play();
+        setIsPlaying(true);
       } else if (isPlaying) {
         player.pause();
+        setIsPlaying(false);
       } else {
         player.play();
+        setIsPlaying(true);
       }
     } catch (e) {
       console.warn("Playback error:", e);
@@ -90,12 +89,10 @@ export default function MusicPlayer() {
               resizeMode="cover"
             />
             <SoundProgress
-              playerStatus={status}
               progressVisible={progressVisible}
               setProgressVisible={(visibility: number) =>
                 setProgressVisible(visibility)
               }
-              setIsPlaying={setIsPlaying}
             />
           </View>
         ) : (

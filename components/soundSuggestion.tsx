@@ -6,7 +6,7 @@
 import { Sound } from "@/objects/sound";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
-import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { useAudioPlayer } from "expo-audio";
 import { router } from "expo-router";
 import * as React from "react";
 import {
@@ -25,20 +25,28 @@ export default function SoundSuggestion({
 }) {
   const sound = useSoundStore((store) => store.sound);
   const setSound = useSoundStore((store) => store.setSound);
-
-  const player = useAudioPlayer(sound?.url, {
+  const player = useSoundStore((store) => store.player);
+  const setPlayer = useSoundStore((store) => store.setPlayer);
+  const isPlaying = useSoundStore((store) => store.isPlaying);
+  const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
+  const thisPlayer = useAudioPlayer(sound?.url, {
     updateInterval: 100,
     downloadFirst: true,
   });
 
-  const playerStatus = useAudioPlayerStatus(player);
   const [progressVisible, setProgressVisible] = React.useState(0);
-  const [isPlaying, setIsPlaying] = React.useState(false);
 
-  const handlePlayBtn = () => {
-    player.pause;
+  const handlePlayBtn = async () => {
+    if (player) {
+      player.pause();
+    }
     setSound(suggestionSound);
-    player.play();
+    setPlayer(thisPlayer);
+
+    // Read directly from the store otherwise zustand isn't quick enough to setIt just as "player" (so we really create a "third" instance)
+    const newPlayer = useSoundStore.getState().player;
+
+    await newPlayer.play();
     setIsPlaying(true);
     setProgressVisible(100);
   };
@@ -60,6 +68,15 @@ export default function SoundSuggestion({
       setProgressVisible(0);
     }
   }, [sound]);
+
+  const playOrPauseBtn = () => {
+    if (sound === suggestionSound && isPlaying) {
+      return true;
+    }
+    if (sound !== suggestionSound) {
+      return false;
+    }
+  };
 
   return (
     <View>
@@ -92,7 +109,7 @@ export default function SoundSuggestion({
             onPress={isPlaying ? handlePauseBtn : handlePlayBtn}
           >
             <Ionicons
-              name={isPlaying ? "pause-circle" : "play-circle"}
+              name={playOrPauseBtn() ? "pause-circle" : "play-circle"}
               size={36}
               color="white"
             />
@@ -101,12 +118,13 @@ export default function SoundSuggestion({
       </ImageBackground>
 
       {/* Progressbar */}
-      <SoundProgress
-        playerStatus={playerStatus}
-        progressVisible={progressVisible}
-        setProgressVisible={setProgressVisible}
-        setIsPlaying={setIsPlaying}
-      />
+
+      {player && (
+        <SoundProgress
+          progressVisible={progressVisible}
+          setProgressVisible={setProgressVisible}
+        />
+      )}
     </View>
   );
 }
