@@ -57,7 +57,8 @@ export default function SoundSuggestion({
   };
 
   const handleTitleArtist = () => {
-    player.pause;
+    const newPlayer = useSoundStore.getState().player;
+    newPlayer.pause;
     setSound(suggestionSound);
     router.navigate("/musicplayer");
   };
