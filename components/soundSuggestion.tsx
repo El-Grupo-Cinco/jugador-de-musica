@@ -57,6 +57,7 @@ export default function SoundSuggestion({
   };
 
   const handleTitleArtist = () => {
+    // added to fix issues on mobiles, probably due to some lag when usin expo-go
     const newPlayer = useSoundStore.getState().player;
     newPlayer.pause;
     setSound(suggestionSound);
