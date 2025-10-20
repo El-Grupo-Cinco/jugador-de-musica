@@ -28,13 +28,15 @@ export default function SoundSuggestion({
   const setPlayer = useSoundStore((store) => store.setPlayer);
   const isPlaying = useSoundStore((store) => store.isPlaying);
   const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
-  const [progress, setProgress] = React.useState(0);
-  const [progressVisible, setProgressVisible] = React.useState(0);
 
   const newPlayer = useAudioPlayer(suggestionSound.url, {
     updateInterval: 100,
     downloadFirst: true,
   });
+
+  React.useEffect(() => {
+    setPlayer(newPlayer);
+  }, [sound]);
 
   const handlePlayBtn = async () => {
     if (isPlaying) {
@@ -45,7 +47,7 @@ export default function SoundSuggestion({
     setPlayer(newPlayer);
 
     // Read directly from the store otherwise zustand isn't quick enough to setIt just as "player" (so we really create a "third" instance)
-    await useSoundStore.getState().player.play();
+    player.play();
     setIsPlaying(true);
     setProgressVisible(100);
   };
@@ -117,17 +119,6 @@ export default function SoundSuggestion({
           </TouchableOpacity>
         </View>
       </ImageBackground>
-
-      {/* Progressbar */}
-
-      {player && (
-        <View
-          style={[
-            styles.progressBar,
-            { marginLeft: `${progress}%`, opacity: progressVisible },
-          ]}
-        />
-      )}
     </View>
   );
 }
