@@ -16,7 +16,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import SoundProgress from "./soundProgress";
 
 export default function SoundSuggestion({
   suggestionSound,
@@ -29,37 +28,37 @@ export default function SoundSuggestion({
   const setPlayer = useSoundStore((store) => store.setPlayer);
   const isPlaying = useSoundStore((store) => store.isPlaying);
   const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
-  const thisPlayer = useAudioPlayer(sound?.url, {
+  const [progress, setProgress] = React.useState(0);
+  const [progressVisible, setProgressVisible] = React.useState(0);
+
+  const newPlayer = useAudioPlayer(suggestionSound.url, {
     updateInterval: 100,
     downloadFirst: true,
   });
-
-  const [progressVisible, setProgressVisible] = React.useState(0);
 
   const handlePlayBtn = async () => {
     if (isPlaying) {
       player.pause();
     }
     setSound(suggestionSound);
-    setPlayer(thisPlayer);
+
+    setPlayer(newPlayer);
 
     // Read directly from the store otherwise zustand isn't quick enough to setIt just as "player" (so we really create a "third" instance)
-    const newPlayer = useSoundStore.getState().player;
-
-    await newPlayer.play();
+    await useSoundStore.getState().player.play();
     setIsPlaying(true);
     setProgressVisible(100);
   };
 
   const handlePauseBtn = () => {
-    player.pause();
+    useSoundStore.getState().player.pause();
     setIsPlaying(false);
   };
 
   const handleTitleArtist = () => {
     // added to fix issues on mobiles, probably due to some lag when usin expo-go
     const newPlayer = useSoundStore.getState().player;
-    newPlayer.pause;
+    useSoundStore.getState().player.pause;
     setSound(suggestionSound);
     router.navigate("/musicplayer");
   };
@@ -122,9 +121,11 @@ export default function SoundSuggestion({
       {/* Progressbar */}
 
       {player && (
-        <SoundProgress
-          progressVisible={progressVisible}
-          setProgressVisible={setProgressVisible}
+        <View
+          style={[
+            styles.progressBar,
+            { marginLeft: `${progress}%`, opacity: progressVisible },
+          ]}
         />
       )}
     </View>
@@ -163,5 +164,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: 8,
+  },
+  progressBar: {
+    width: 3,
+    height: 60,
+    marginTop: -66,
+    backgroundColor: "#902CD8",
   },
 });
