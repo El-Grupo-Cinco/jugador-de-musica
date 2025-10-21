@@ -1,7 +1,6 @@
 // app/(tabs)/musicplayer.tsx
 import { PauseButton } from "@/assets/svg/pauseBtn";
 import { PlayButton } from "@/assets/svg/playBtn";
-import SoundProgress from "@/components/soundProgress";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useAudioPlayerStatus } from "expo-audio";
@@ -25,6 +24,7 @@ export default function MusicPlayer() {
   const player = useSoundStore((store) => store.player);
   const isPlaying = useSoundStore((store) => store.isPlaying);
   const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
+  const [progress, setProgress] = React.useState(0);
 
   const status = useAudioPlayerStatus(player);
 
@@ -34,16 +34,24 @@ export default function MusicPlayer() {
     setProgressVisible(status?.currentTime !== 0 ? 100 : 0);
   }, [status?.currentTime]);
 
+  React.useEffect(() => {
+    setProgress((status.currentTime / status.duration) * 100);
+    if (status.didJustFinish) {
+      setProgressVisible(0);
+      setIsPlaying(false);
+    }
+  }, [status.currentTime, status.duration, setProgressVisible]);
+
   const togglePlay = () => {
     try {
       if (!status.isLoaded) {
-        player.play();
+        useSoundStore.getState().player.play();
         setIsPlaying(true);
       } else if (isPlaying) {
-        player.pause();
+        useSoundStore.getState().player.pause();
         setIsPlaying(false);
       } else {
-        player.play();
+        useSoundStore.getState().player.play();
         setIsPlaying(true);
       }
     } catch (e) {
@@ -88,12 +96,14 @@ export default function MusicPlayer() {
               style={styles.waveformImage}
               resizeMode="cover"
             />
-            <SoundProgress
-              progressVisible={progressVisible}
-              setProgressVisible={(visibility: number) =>
-                setProgressVisible(visibility)
-              }
-            />
+            {isPlaying && (
+              <View
+                style={[
+                  styles.progressBar,
+                  { marginLeft: `${progress}%`, opacity: progressVisible },
+                ]}
+              />
+            )}
           </View>
         ) : (
           <View style={styles.waveformPlaceholder} />
@@ -104,7 +114,13 @@ export default function MusicPlayer() {
       <View style={styles.controlsRow}>
         <TouchableOpacity
           style={styles.iconBtn}
-          onPress={() => player.seekTo(0)}
+          onPress={() => {
+            player.seekTo(0);
+            if (!isPlaying) {
+              player.play();
+              setIsPlaying(true);
+            }
+          }}
         >
           <Ionicons name="play-skip-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
@@ -279,5 +295,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
     marginTop: 6,
+  },
+  progressBar: {
+    width: 3,
+    height: 60,
+    marginTop: -66,
+    backgroundColor: "#902CD8",
   },
 });
