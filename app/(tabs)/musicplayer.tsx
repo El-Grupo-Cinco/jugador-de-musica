@@ -1,6 +1,7 @@
 // app/(tabs)/musicplayer.tsx
 import { PauseButton } from "@/assets/svg/pauseBtn";
 import { PlayButton } from "@/assets/svg/playBtn";
+import { ThemedText } from "@/components/themed-text";
 import { useSoundStore } from "@/store/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useAudioPlayerStatus } from "expo-audio";
@@ -25,6 +26,20 @@ export default function MusicPlayer() {
   const isPlaying = useSoundStore((store) => store.isPlaying);
   const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
   const [progress, setProgress] = React.useState(0);
+
+  if (!sound) {
+    return (
+      <View>
+        <ThemedText style={styles.noSound}>
+          Music Player not available right now.
+        </ThemedText>
+        <ThemedText style={styles.noSoundInfo}>
+          No sound loaded, select one i our suggestions or search for one and
+          come back.
+        </ThemedText>
+      </View>
+    );
+  }
 
   const status = useAudioPlayerStatus(player);
 
@@ -301,5 +316,18 @@ const styles = StyleSheet.create({
     height: 60,
     marginTop: -66,
     backgroundColor: "#902CD8",
+  },
+  noSound: {
+    marginTop: 40,
+    textAlign: "center",
+    backgroundColor: "#902CD8",
+    fontWeight: 800,
+    padding: 10,
+  },
+  noSoundInfo: {
+    textAlign: "center",
+    backgroundColor: "#902CD8",
+    fontWeight: 800,
+    padding: 10,
   },
 });
