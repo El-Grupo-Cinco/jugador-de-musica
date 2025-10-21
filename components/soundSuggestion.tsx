@@ -28,49 +28,44 @@ export default function SoundSuggestion({
   const setPlayer = useSoundStore((store) => store.setPlayer);
   const isPlaying = useSoundStore((store) => store.isPlaying);
   const setIsPlaying = useSoundStore((store) => store.setIsPlaying);
+  const [isActive, setIsActive] = React.useState(false);
 
   const newPlayer = useAudioPlayer(suggestionSound.url, {
     updateInterval: 100,
     downloadFirst: true,
   });
 
-  React.useEffect(() => {
-    setPlayer(newPlayer);
-  }, [sound]);
-
   const handlePlayBtn = async () => {
     if (isPlaying) {
-      player.pause();
+      if (player) player.pause();
     }
     setSound(suggestionSound);
 
     setPlayer(newPlayer);
 
     // Read directly from the store otherwise zustand isn't quick enough to setIt just as "player" (so we really create a "third" instance)
-    player.play();
+    await useSoundStore.getState().player.play();
+
     setIsPlaying(true);
-    setProgressVisible(100);
   };
 
   const handlePauseBtn = () => {
     useSoundStore.getState().player.pause();
-    setIsPlaying(false);
   };
 
-  const handleTitleArtist = () => {
+  const handleTitleArtist = async () => {
     // added to fix issues on mobiles, probably due to some lag when usin expo-go
-    const newPlayer = useSoundStore.getState().player;
-    useSoundStore.getState().player.pause;
-    setSound(suggestionSound);
-    router.navigate("/musicplayer");
-  };
-
-  React.useEffect(() => {
-    if (suggestionSound !== sound) {
+    if (sound === suggestionSound) {
+      router.navigate("/musicplayer");
+    } else {
+      if (player) player.pause();
+      player.seekTo(0);
       setIsPlaying(false);
-      setProgressVisible(0);
+      setPlayer(newPlayer);
+      setSound(suggestionSound);
+      router.navigate("/musicplayer");
     }
-  }, [sound]);
+  };
 
   const playOrPauseBtn = () => {
     if (sound === suggestionSound && isPlaying) {
@@ -81,11 +76,24 @@ export default function SoundSuggestion({
     }
   };
 
+  React.useEffect(() => {
+    if (sound === suggestionSound) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [sound]);
+
+  const activeBorder = () => {
+    if (isActive) return { borderWidth: 2, borderColor: "white" };
+    return { borderWidth: 2 };
+  };
+
   return (
     <View>
       <ImageBackground
         source={{ uri: suggestionSound.spectrogram }}
-        style={styles.container}
+        style={[styles.container, activeBorder()]}
         imageStyle={styles.backgroundImage}
       >
         <View style={styles.textContainer}>

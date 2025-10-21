@@ -7,7 +7,7 @@ import { Sound } from "@/objects/sound";
 import { useQueryStore } from "@/store/store";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function SearchPage() {
   const query = useQueryStore((state) => state.query);
@@ -43,6 +43,13 @@ export default function SearchPage() {
     searchSound();
   }, [searchQuery]);
 
+  const handleSubmit = () => {
+    Keyboard.dismiss();
+    if (query.trim() !== "") {
+      searchSound();
+    }
+  };
+
   return (
     <View style={styles.main}>
       <Text style={styles.introText}>
@@ -50,7 +57,11 @@ export default function SearchPage() {
         utter nonsense — you’ll probably find it here.
       </Text>
 
-      <SearchBar query={query} setQuery={setQuery} handleSubmit={searchSound} />
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        handleSubmit={handleSubmit}
+      />
 
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.introText}>{infoText}</Text>

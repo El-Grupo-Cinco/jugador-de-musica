@@ -96,12 +96,14 @@ export default function MusicPlayer() {
               style={styles.waveformImage}
               resizeMode="cover"
             />
-            <View
-              style={[
-                styles.progressBar,
-                { marginLeft: `${progress}%`, opacity: progressVisible },
-              ]}
-            />
+            {isPlaying && (
+              <View
+                style={[
+                  styles.progressBar,
+                  { marginLeft: `${progress}%`, opacity: progressVisible },
+                ]}
+              />
+            )}
           </View>
         ) : (
           <View style={styles.waveformPlaceholder} />
@@ -112,7 +114,13 @@ export default function MusicPlayer() {
       <View style={styles.controlsRow}>
         <TouchableOpacity
           style={styles.iconBtn}
-          onPress={() => player.seekTo(0)}
+          onPress={() => {
+            player.seekTo(0);
+            if (!isPlaying) {
+              player.play();
+              setIsPlaying(true);
+            }
+          }}
         >
           <Ionicons name="play-skip-back-outline" size={26} color="#fff" />
         </TouchableOpacity>
