@@ -65,14 +65,16 @@ export default function SearchPage() {
 
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.introText}>{infoText}</Text>
-
-        {searchResult && searchResult.length > 0
-          ? searchResult.map((sound) => (
+        {searchResult && searchResult.length > 0 && (
+          <View>
+            <Text style={styles.info}>
+              (to relisten or rewind, go to the Music Player)
+            </Text>
+            {searchResult.map((sound) => (
               <SoundSuggestion key={sound.id} suggestionSound={sound} />
-            ))
-          : query !== "" && (
-              <Text style={styles.noResultText}>No results found.</Text>
-            )}
+            ))}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -91,6 +93,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     fontWeight: "800",
+  },
+  info: {
+    fontStyle: "italic",
+    color: "white",
+    textAlign: "center",
+    fontSize: 12,
   },
   scrollView: {
     backgroundColor: "#902CD8",

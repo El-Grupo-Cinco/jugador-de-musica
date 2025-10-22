@@ -71,6 +71,9 @@ export default function HomeScreen() {
       {/* Suggestions Box */}
       <View style={styles.suggestionsContainer}>
         <Text style={styles.suggestionsTitle}>Our sound suggestions</Text>
+        <Text style={styles.info}>
+          (to relisten or rewind, go to the Music Player)
+        </Text>
         {soundSuggestions.map((soundSuggestion) => (
           <SoundSuggestion
             key={soundSuggestion.id}
@@ -105,5 +108,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "800",
     fontSize: 20,
+  },
+  info: {
+    fontStyle: "italic",
+    color: "white",
+    textAlign: "center",
+    fontSize: 12,
   },
 });

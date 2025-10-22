@@ -51,6 +51,7 @@ export default function SoundSuggestion({
 
   const handlePauseBtn = () => {
     useSoundStore.getState().player.pause();
+    setIsPlaying(false);
   };
 
   const handleTitleArtist = async () => {
@@ -59,7 +60,7 @@ export default function SoundSuggestion({
       router.navigate("/musicplayer");
     } else {
       if (player) player.pause();
-      player.seekTo(0);
+      player?.seekTo(0);
       setIsPlaying(false);
       setPlayer(newPlayer);
       setSound(suggestionSound);

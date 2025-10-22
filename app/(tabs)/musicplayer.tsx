@@ -52,6 +52,8 @@ export default function MusicPlayer() {
   React.useEffect(() => {
     setProgress((status.currentTime / status.duration) * 100);
     if (status.didJustFinish) {
+      player.seekTo(0);
+      player.pause();
       setProgressVisible(0);
       setIsPlaying(false);
     }
