@@ -49,6 +49,9 @@ export default function MusicPlayer() {
     setProgressVisible(status?.currentTime !== 0 ? 100 : 0);
   }, [status?.currentTime]);
 
+  //this useEffect rewind the sound back to 0 (start of sound)
+  //will also work in soundSuggestion once music player has been mounted
+  //however if user does not mount music player (i.e navigate to sound player) the sound suggestion will not rewind
   React.useEffect(() => {
     setProgress((status.currentTime / status.duration) * 100);
     if (status.didJustFinish) {

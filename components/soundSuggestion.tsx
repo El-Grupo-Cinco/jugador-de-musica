@@ -17,6 +17,9 @@ import {
   View,
 } from "react-native";
 
+// see comment about rewind sound automatically in music player line 52
+// soundSuggestion will not rewind automatically since we didn't manage to
+// globalize useAudioPlayerStatus
 export default function SoundSuggestion({
   suggestionSound,
 }: {
