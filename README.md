@@ -15,6 +15,8 @@ You'll probably find what you're looking for.
 This is a school project not meant for production as is. The use of multiple AudioPlayer causes some efficency issues. These were ignored as our goal with the project was to manage sound on a mobile device.
 
 **You will need your own freesound API key to make this project work.**
+We've used our API keys publicly in earlier version of this app for simplicity but you should keep your API key in a separate file in your .gitignore.
+Earlier published API keys have been removed from our FreeSound accounts.
 
 ## TABS
 
