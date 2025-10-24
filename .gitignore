@@ -44,3 +44,6 @@ app-example
 # generated native folders
 /ios
 /android
+
+#API KEY FILE
+API_KEY.ts
